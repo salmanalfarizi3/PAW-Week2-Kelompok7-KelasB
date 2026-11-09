@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Tiket & Destinasi — TanyaBali AI</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <header class="main-header">
+        <div class="logo">
+            <img src="/logo.png" alt="Logo TanyaBali" class="logo-img" onerror="this.src='https://via.placeholder.com/40?text=TB'">
+            <h1>Tanya<span>Bali</span></h1>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/">Beranda AI</a></li>
+                <li><a href="/info-tiket" class="active">Informasi Tiket Wisata</a></li>
+                <li><a href="/referensi">Bedah Jurnal & PRD</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="/" class="btn btn-pill btn-outline-light">Kembali ke Chatbot</a>
+        </div>
+    </header>
+
+    <div class="container my-5">
+        
+        <!-- Header Banner Informasi -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="p-4 bg-white rounded-4 shadow-sm border d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <span class="badge bg-primary mb-2 px-3 py-1">Database Pengetahuan Chatbot</span>
+                        <h2 class="fw-bold mb-1"><i class="fa-solid fa-ticket text-primary me-2"></i>Pusat Informasi Tiket & Destinasi Wisata Bali</h2>
+                        <p class="text-secondary mb-0">Kelola daftar referensi harga tiket, pura, dan lokasi wisata yang diakses oleh sistem AI TanyaBali.</p>
+                    </div>
+                    <button class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#productModal" onclick="resetForm()">
+                        <i class="fa-solid fa-circle-plus me-2"></i>Tambah Info Tiket
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Daftar Informasi Tiket -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="ps-4">#ID</th>
+                                <th>Nama Destinasi / Pura / Kuliner</th>
+                                <th>Wilayah / Kabupaten</th>
+                                <th>Estimasi Harga Tiket</th>
+                                <th>Deskripsi / Catatan AI</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (products && products.length > 0) { %>
+                                <% products.forEach((product) => { %>
+                                    <tr>
+                                        <td class="ps-4 fw-bold text-muted">#<%= product.id %></td>
+                                        <td>
+                                            <div class="fw-bold text-dark"><%= product.name %></div>
+                                        </td>
+                                        <td><span class="badge bg-secondary"><%= product.category %></span></td>
+                                        <td class="fw-semibold text-success">
+                                            <%= product.price > 0 ? 'Rp ' + Number(product.price).toLocaleString('id-ID') : 'Gratis / Donasi' %>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted"><%= product.description || 'Referensi data chatbot TanyaBali' %></small>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-warning me-1 px-3" onclick="editProduct('<%= product.id %>', '<%= product.name %>', '<%= product.category %>', '<%= product.price %>', '<%= product.description %>')">
+                                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger px-3" onclick="deleteProduct('<%= product.id %>')">
+                                                <i class="fa-solid fa-trash"></i> Hapus
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <i class="fa-solid fa-compass fa-3x mb-3 text-secondary"></i>
+                                        <h5 class="fw-bold">Belum Ada Informasi Tiket</h5>
+                                        <p class="mb-0">Silakan tambahkan data destinasi wisata untuk melengkapi pengetahuan AI.</p>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Form Tambah / Edit Informasi Tiket -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Tambah Informasi Tiket Wisata</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="productForm">
+                    <div class="modal-body p-4">
+                        <input type="hidden" id="productId">
+                        
+                        <div class="mb-3">
+                            <label for="nama" class="form-label fw-bold">Nama Destinasi / Pura / Kuliner</label>
+                            <input type="text" class="form-control" id="nama" placeholder="Contoh: Pura Tanah Lot / Sayur Srombotan" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="category" class="form-label fw-bold">Wilayah / Kabupaten</label>
+                            <input type="text" class="form-control" id="category" placeholder="Contoh: Kabupaten Tabanan" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="harga" class="form-label fw-bold">Estimasi Harga Tiket (Rp)</label>
+                            <input type="number" class="form-control" id="harga" placeholder="Contoh: 20000 (isi 0 jika gratis)" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="deskripsi" class="form-label fw-bold">Keterangan / Detail Lokasi untuk AI</label>
+                            <textarea class="form-control" id="deskripsi" rows="3" placeholder="Informasi pendukung untuk respon chatbot..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light border-0">
+                        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4" id="saveButton">Simpan Informasi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Fetch API CRUD -->
+    <script>
+        const productForm = document.getElementById('productForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const productIdField = document.getElementById('productId');
+        const namaField = document.getElementById('nama');
+        const categoryField = document.getElementById('category');
+        const hargaField = document.getElementById('harga');
+        const deskripsiField = document.getElementById('deskripsi');
+        
+        let myModal = new bootstrap.Modal(document.getElementById('productModal'));
+
+        function resetForm() {
+            modalTitle.textContent = 'Tambah Informasi Tiket Wisata';
+            productIdField.value = '';
+            namaField.value = '';
+            categoryField.value = '';
+            hargaField.value = '';
+            deskripsiField.value = '';
+        }
+
+        function editProduct(id, name, category, price, description) {
+            modalTitle.textContent = 'Edit Informasi Tiket Wisata';
+            productIdField.value = id;
+            namaField.value = name;
+            categoryField.value = category;
+            hargaField.value = price;
+            deskripsiField.value = description !== 'undefined' ? description : '';
+            myModal.show();
+        }
+
+        productForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const id = productIdField.value;
+            const payload = {
+                nama: namaField.value,
+                category: categoryField.value,
+                harga: hargaField.value,
+                deskripsi: deskripsiField.value
+            };
+
+            const url = id ? `/api/produk/${id}` : '/api/produk';
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    location.reload();
+                } else {
+                    alert('Gagal: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Terjadi kesalahan koneksi ke server.');
+            }
+        });
+
+        async function deleteProduct(id) {
+            if (!confirm('Apakah kamu yakin ingin menghapus informasi tiket wisata ini?')) return;
+
+            try {
+                const response = await fetch(`/api/produk/${id}`, { method: 'DELETE' });
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    location.reload();
+                } else {
+                    alert('Gagal menghapus: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Terjadi kesalahan sistem.');
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
