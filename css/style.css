@@ -1,10 +1,4 @@
 
-/* =========================================
-   BALI EXPLORER - MAIN STYLESHEET
-   CSS disesuaikan dengan index.ejs asli
-========================================= */
-
-/* 1. ROOT */
 :root {
     --primary: #62c5ce;
     --primary-hover: #059669;
@@ -17,7 +11,6 @@
     --shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
 }
 
-/* 2. RESET */
 * {
     margin: 0;
     padding: 0;
@@ -45,10 +38,6 @@ body {
 }
 
 
-/* =========================================
-   3. HEADER / NAVBAR
-========================================= */
-
 .main-header {
     width: 100%;
     min-height: 85px;
@@ -72,7 +61,6 @@ body {
     box-shadow: var(--shadow);
 }
 
-/* LOGO */
 
 .logo {
     display: flex;
@@ -148,8 +136,6 @@ body {
 }
 
 
-/* HEADER BUTTON */
-
 .header-actions {
     flex-shrink: 0;
 }
@@ -181,9 +167,6 @@ body {
 }
 
 
-/* =========================================
-   4. HERO SEARCH SECTION
-========================================= */
 
 .hero-search-section {
     width: 100%;
@@ -238,10 +221,6 @@ body {
     margin-bottom: 30px;
 }
 
-
-/* =========================================
-   5. SEARCH BAR
-========================================= */
 
 .search-bar-box {
     max-width: 700px;
@@ -314,10 +293,6 @@ body {
 }
 
 
-/* =========================================
-   6. QUICK MENU
-========================================= */
-
 .quick-menu-container {
     width: 100%;
     max-width: 1100px;
@@ -386,10 +361,6 @@ body {
 }
 
 
-/* =========================================
-   7. MAIN CONTAINER
-========================================= */
-
 .main-container {
     width: 100%;
     max-width: 1150px;
@@ -399,8 +370,6 @@ body {
     padding: 0 25px;
 }
 
-
-/* SECTION TITLE */
 
 .section-header-title {
     text-align: center;
@@ -427,10 +396,6 @@ body {
 }
 
 
-/* =========================================
-   8. PRODUCT GRID
-========================================= */
-
 .product-grid {
     width: 100%;
 
@@ -443,10 +408,6 @@ body {
     align-items: stretch;
 }
 
-
-/* =========================================
-   9. PRODUCT CARD
-========================================= */
 
 .product-card {
     min-width: 0;
@@ -479,7 +440,6 @@ body {
 }
 
 
-/* CARD IMAGE */
 
 .card-img-placeholder {
     width: 100%;
@@ -505,7 +465,6 @@ body {
 }
 
 
-/* CARD BODY */
 
 .card-body {
     flex: 1;
@@ -517,7 +476,6 @@ body {
 }
 
 
-/* BADGE */
 
 .badge {
     display: inline-block;
@@ -540,8 +498,6 @@ body {
 }
 
 
-/* PRODUCT TITLE */
-
 .card-body h3 {
     color: white;
 
@@ -553,7 +509,6 @@ body {
 }
 
 
-/* CATEGORY */
 
 .category {
     color: var(--muted);
@@ -564,7 +519,6 @@ body {
 }
 
 
-/* CARD FOOTER */
 
 .card-footer-info {
     display: flex;
@@ -582,7 +536,6 @@ body {
 }
 
 
-/* PRICE */
 
 .price {
     color: var(--primary);
@@ -593,7 +546,6 @@ body {
 }
 
 
-/* DETAIL BUTTON */
 
 .btn-detail {
     padding: 10px 18px;
@@ -620,9 +572,6 @@ body {
 }
 
 
-/* =========================================
-   10. FOOTER
-========================================= */
 
 footer {
     width: 100%;
@@ -645,9 +594,6 @@ footer p {
 }
 
 
-/* =========================================
-   11. RESPONSIVE TABLET
-========================================= */
 
 @media screen and (max-width: 1024px) {
 
@@ -671,9 +617,6 @@ footer p {
 }
 
 
-/* =========================================
-   12. RESPONSIVE MOBILE
-========================================= */
 
 @media screen and (max-width: 768px) {
 
@@ -792,9 +735,6 @@ footer p {
 }
 
 
-/* =========================================
-   13. SMALL MOBILE
-========================================= */
 
 @media screen and (max-width: 380px) {
 
